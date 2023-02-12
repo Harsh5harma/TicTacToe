@@ -1,0 +1,27 @@
+Code the game's logic first, it should be able to run in the console itself.
+The main method that interacts with the DOM should be as restrictive as possible, the dom should only be bothered with displaying stuff with minimal arguments.
+
+It should be easy to recognize that once the console version of our game was created, implementing the user interface was incredibly simple.
+This will make the code and the program better and unlike the ugly duct taped together code I've been writing before.
+
+if you only ever need ONE of something (gameBoard, displayController), use a module. If you need multiples of something (players!), create them with factories.
+
+Four winning conditions:
+i) Any column has the same mark
+ii) Any Row has the same mark
+iii) Major diagonal has the same mark
+iv) Minor diagonal has the same mark
+
+
+!!CORE GAME LOGIC!!
+
+while (Board not full):
+    //After every move, check if any of the above condition hold
+    if (win):
+        victory = true;
+        break;
+
+if (victory):
+    //Victory message with victor name
+else:
+    //Game draw message
