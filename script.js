@@ -2,8 +2,8 @@ const tictactoe = (()=>{
     const boardMaker = (()=>{
         let board = [
         ['X','X','O'],
-        ['X','O','X'],
-        ['X','','X']];
+        ['','O','X'],
+        ['O','O','X']];
         let printBoard = ()=> console.log(board);
         return {board,printBoard};
     })();
@@ -31,46 +31,50 @@ const tictactoe = (()=>{
             //Any column has the same mark
             for (let i =0;i<3;i++){
                 if ((myBoard[i][0]===myBoard[i][1])&&(myBoard[i][1]===myBoard[i][2])){
-                    console.log(`${myBoard[i][0]} wins!`);
-                    return true;
+                    return {outcome:true,mark:myBoard[i][0]};
                 }
             }
 
             //Any row has the same mark
             for (let i =0;i<3;i++){
                 if ((myBoard[0][i]===myBoard[1][i])&&(myBoard[1][i]===myBoard[2][i])){
-                    console.log(`${myBoard[0][i]} wins!`);
-                    return true;
+                    return {outcome:true,mark:myBoard[0][i]};
                 }
             }
 
             //The major diagonal has the same mark
             if ((myBoard[0][0]===myBoard[1][1])&&(myBoard[1][1]===myBoard[2][2])){
-                console.log(`${myBoard[0][0]} wins!`);
-                return true;
+                return {outcome:true,mark:myBoard[1][1]};
             }
 
             //The minor diagonal has the same mark
             if ((myBoard[0][2]===myBoard[1][1])&&(myBoard[1][1]===myBoard[2][0])){
-                console.log(`${myBoard[1][1]} wins!`);
-                return true;
+                return {outcome:true,mark:myBoard[1][1]};
             }
 
-            return false;
+            //default outcome
+            return {outcome:false,mark:''};
         }
 
+        //Determines and displays the outcome of the game, along with returning the game verdict object
         const gameLogic = (myBoard)=>{
+            let verdict=gameWin(myBoard);
             while(!isBoardFull(myBoard)){
-                let outcome = gameWin(myBoard);
-                if (outcome){
-
+                verdict = gameWin(myBoard);
+                if (verdict.outcome===true){
+                    console.log(`${verdict.mark} has won`);
+                    return verdict;
                 }
             }
-
-        
+            if (verdict.outcome===true){
+                console.log(`${verdict.mark} has won`);
+            }else{
+                console.log("No one won. The game was a draw.");
+            }
+            return verdict;
         }
 
-        return {gameWin};
+        return {gameLogic};
     })();
 
     return {boardMaker,boardFunctions}
@@ -78,6 +82,6 @@ const tictactoe = (()=>{
 })();
 
 tictactoe.boardMaker.printBoard();
-tictactoe.boardFunctions.gameWin(tictactoe.boardMaker.board)
+tictactoe.boardFunctions.gameLogic(tictactoe.boardMaker.board)
 
 
