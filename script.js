@@ -85,3 +85,13 @@ tictactoe.boardMaker.printBoard();
 tictactoe.boardFunctions.gameLogic(tictactoe.boardMaker.board)
 
 
+let button = document.querySelector('.restart');
+const board = document.querySelector('.board');
+for (let i =0;i<3;i++){
+    for (let j=0;j<3;j++){
+        let subdiv = document.createElement('div');
+        subdiv.className="subdiv";
+        subdiv.textContent="X";
+        board.appendChild(subdiv);
+    }
+}
