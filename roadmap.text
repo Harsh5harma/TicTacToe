@@ -25,3 +25,8 @@ if (victory):
     //Victory message with victor name
 else:
     //Game draw message
+
+on subdiv click:
+    if game win:
+        update msgBoard and stop game.
+    

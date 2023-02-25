@@ -1,18 +1,82 @@
+
 const tictactoe = (()=>{
-    const boardMaker = (()=>{
-        let board = [
-        ['X','X','O'],
-        ['','O','X'],
-        ['O','O','X']];
-        let printBoard = ()=> console.log(board);
-        return {board,printBoard};
-    })();
+    const boardMaker = (function(){
+        const board = document.querySelector('.board');
+        for (let i =0;i<3;i++){
+            for (let j=0;j<3;j++){
+                let subdiv = document.createElement('div');
+                subdiv.className="subdiv";
+                board.appendChild(subdiv);
+            
+            }
+        }
+    });
+    
+    const startGame = (function(){
+        let startStatus = false;
+        let player1 = document.querySelector('#player1');
+        let player2 = document.querySelector('#player2');
+        const startButton = document.querySelector('.start');
+        let restartButton = document.querySelector('.restart');
+        const msgBoard = document.querySelector('.m2');
 
-    let myBoard = boardMaker.board;
-
-    const boardFunctions = (function(){
+        let mark;
+        let marks1D = [];
+        let marks2D = [];
+        let turn = false;
+    
+        let subDivHandler = (e)=>{
+            if  (startStatus===true){
+                   if (mark===player1.value){
+                       msgBoard.textContent="Player 1 played their turn";
+                   }else{
+                       msgBoard.textContent = "Player 2 played their turn";
+                   }
+                   if (turn===true){
+                       e.target.textContent=mark;
+                       mark = 'O';
+                       turn = false;
+                   }else{
+                       e.target.textContent=mark;
+                       mark='X';
+                       turn = true;
+                   }
+                   e.target.removeEventListener('click',subDivHandler);
+                   
+                   marks1D=[];
+                   marks2D = [];
+                   subDivs.forEach(sd=>{
+                        marks1D.push(sd.textContent);
+                   })
+                   while (marks1D.length) marks2D.push(marks1D.splice(0,3));
+           }
+        }
         
-        const isBoardFull = ()=>{
+        let startHandler=()=>{
+            if (player1.value!=""&&player2.value!=""){
+             startStatus=true;
+                mark='X';
+                turn = true;
+                msgBoard.innerHTML=`Game has started!<br>Player 1: ${player1.value}<br>Player 2: ${player2.value}`;
+            }
+            console.log(startStatus);
+         }
+    
+         startButton.addEventListener('click',startHandler);
+         let subDivs = document.querySelectorAll('.subdiv');
+         
+         subDivs.forEach(node=>{
+             node.addEventListener('click',subDivHandler)}
+         )
+         restartButton.addEventListener('click',()=>{
+            window.location.reload();
+        })
+        return {marks2D};
+    });
+
+    const boardFunctions = (function(myBoard){
+        
+        const isBoardFull = (myBoard)=>{
             let flag = true;
             for (let i = 0;i<3;i++){
                 for (let j=0;j<3;j++){
@@ -26,7 +90,7 @@ const tictactoe = (()=>{
             return flag;
         }
 
-        const gameWin = (myBoard)=>{
+        const gameWin = ((myBoard)=>{
             //4 conditions of winning.
             //Any column has the same mark
             for (let i =0;i<3;i++){
@@ -54,10 +118,10 @@ const tictactoe = (()=>{
 
             //default outcome
             return {outcome:false,mark:''};
-        }
+        });
 
         //Determines and displays the outcome of the game, along with returning the game verdict object
-        const gameLogic = (myBoard)=>{
+        const gameLogic = ((myBoard)=>{
             let verdict=gameWin(myBoard);
             while(!isBoardFull(myBoard)){
                 verdict = gameWin(myBoard);
@@ -72,72 +136,20 @@ const tictactoe = (()=>{
                 console.log("No one won. The game was a draw.");
             }
             return verdict;
-        }
+        });
 
         return {gameLogic};
-    })();
+    });
 
-    return {boardMaker,boardFunctions}
+    return {startGame,boardMaker,boardFunctions}
     
 })();
 
-tictactoe.boardMaker.printBoard();
-tictactoe.boardFunctions.gameLogic(tictactoe.boardMaker.board)
+tictactoe.boardMaker();
+tictactoe.startGame();
 
 
-const board = document.querySelector('.board');
-let startStatus = false;
-let player1 = document.querySelector('#player1');
-let player2 = document.querySelector('#player2');
-const startButton = document.querySelector('.start');
-let restartButton = document.querySelector('.restart');
-const msgBoard = document.querySelector('.m2');
-for (let i =0;i<3;i++){
-    for (let j=0;j<3;j++){
-        let subdiv = document.createElement('div');
-        subdiv.className="subdiv";
-        board.appendChild(subdiv);
-        
-    }
-}
 
 
-let mark;
-let turn = false;
-let subDivHandler = (e)=>{
-    if  (startStatus===true){
-           if (mark===player1.value){
-               msgBoard.textContent="Player 1 played their turn";
-           }else{
-               msgBoard.textContent = "Player 2 played their turn";
-           }
-           if (turn===true){
-               e.target.textContent=mark;
-               mark = 'O';
-               turn = false;
-           }else{
-               e.target.textContent=mark;
-               mark='X';
-               turn = true;
-           }
-           e.target.removeEventListener('click',subDivHandler);
-   }
-}
-let startHandler=()=>{
-   if (player1.value!=""&&player2.value!=""){
-       startStatus=true;
-       mark='X';
-       turn = true;
-       msgBoard.innerHTML=`Game has started!<br>Player 1: ${player1.value}<br>Player 2: ${player2.value}`;
-   }
-   console.log(startStatus);
-}
-startButton.addEventListener('click',startHandler);
-let subDivs = document.querySelectorAll('.subdiv');
 
-subDivs.forEach(node=>{
-    node.addEventListener('click',subDivHandler)}
-)
-restartButton.addEventListener('click',()=>{
-    window.location.reload();
-})
+
