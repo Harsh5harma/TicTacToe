@@ -85,13 +85,59 @@ tictactoe.boardMaker.printBoard();
 tictactoe.boardFunctions.gameLogic(tictactoe.boardMaker.board)
 
 
-let button = document.querySelector('.restart');
 const board = document.querySelector('.board');
+let startStatus = false;
+let player1 = document.querySelector('#player1');
+let player2 = document.querySelector('#player2');
+const startButton = document.querySelector('.start');
+let restartButton = document.querySelector('.restart');
+const msgBoard = document.querySelector('.m2');
 for (let i =0;i<3;i++){
     for (let j=0;j<3;j++){
         let subdiv = document.createElement('div');
         subdiv.className="subdiv";
-        subdiv.textContent="X";
         board.appendChild(subdiv);
+        
     }
 }
+
+
+let mark;
+let turn = false;
+let subDivHandler = (e)=>{
+    if  (startStatus===true){
+           if (mark===player1.value){
+               msgBoard.textContent="Player 1 played their turn";
+           }else{
+               msgBoard.textContent = "Player 2 played their turn";
+           }
+           if (turn===true){
+               e.target.textContent=mark;
+               mark = 'O';
+               turn = false;
+           }else{
+               e.target.textContent=mark;
+               mark='X';
+               turn = true;
+           }
+           e.target.removeEventListener('click',subDivHandler);
+   }
+}
+let startHandler=()=>{
+   if (player1.value!=""&&player2.value!=""){
+       startStatus=true;
+       mark='X';
+       turn = true;
+       msgBoard.innerHTML=`Game has started!<br>Player 1: ${player1.value}<br>Player 2: ${player2.value}`;
+   }
+   console.log(startStatus);
+}
+startButton.addEventListener('click',startHandler);
+let subDivs = document.querySelectorAll('.subdiv');
+
+subDivs.forEach(node=>{
+    node.addEventListener('click',subDivHandler)}
+)
+restartButton.addEventListener('click',()=>{
+    window.location.reload();
+})
