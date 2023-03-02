@@ -30,3 +30,23 @@ on subdiv click:
     if game win:
         update msgBoard and stop game.
     
+
+
+
+Invocation of a function is executinf the code that makes the body of a function, or simply calloing the function
+
+Context of an invocation is the value of "this" in the function body
+
+Scope of a function is the set of variables and functions accessible within the function
+
+4 types of method invocation:
+
+1) Function invocation
+2) Method invocation
+3) Constructor invocation
+4) Indirect invocation 
+
+.bind() makes a perma context link and will always keep it. A bound function cannot change its linked context when using .call() or .apply()
+only the Constructor invocation of a bound function can change an already bound context
+
+this in arrow function doesn't create its own execution context but takes it from the outer function where it is defined in.
